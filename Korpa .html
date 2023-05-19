@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>korpa1</title>
+	<link rel="stylesheet" type="text/css" href="stylee.css">
+</head>
+
+<body background="pozadina9.jpg">
+	<h1>Prodavnica</h1>
+
+    <div class="container">
+      <div class="items">
+        <h2>Proizvodi</h2>
+
+        <div class="single-item" data-name="Kosulja" data-price="10">
+          <img src="kosulje.jpg">
+          <div class="si-content">
+            <h3>Kosulje</h3>
+            <p class="price">$10</p>
+          </div>
+          <div class="actions">
+            <input type="number" name="quantity" value="0" min="0">
+            <button class="add-to-cart-btn" onclick="addToCart(this)">Dodaj</button>
+          </div>
+        </div>
+
+        <div class="single-item" data-name="Paradajz" data-price="20">
+          <img src="kais3.jpg">
+          <div class="si-content">
+            <h3>Kais</h3>
+            <p class="price">$20</p>
+          </div>
+          <div class="actions">
+            <input type="number" name="quantity" value="0" min="0">
+            <button class="add-to-cart-btn" onclick="addToCart(this)">Dodaj</button>
+          </div>
+        </div>
+		<div class="single-item" data-name="Paradajz" data-price="20">
+          <img src="cipela.jpg">
+          <div class="si-content">
+            <h3>Cipele</h3>
+            <p class="price">$100</p>
+          </div>
+          <div class="actions">
+            <input type="number" name="quantity" value="0" min="0">
+            <button class="add-to-cart-btn" onclick="addToCart(this)">Dodaj</button>
+          </div>
+        </div>
+		<div class="single-item" data-name="Paradajz" data-price="20">
+          <img src="novcanik.jpg">
+          <div class="si-content">
+            <h3>Novcanik</h3>
+            <p class="price">$20</p>
+          </div>
+          <div class="actions">
+            <input type="number" name="quantity" value="0" min="0">
+            <button class="add-to-cart-btn" onclick="addToCart(this)">Dodaj</button>
+          </div>
+        </div>
+
+        <div class="single-item" data-name="Odela" data-price="30">
+          <img src="sivo.jpg">
+          <div class="si-content">
+            <h3>Odela</h3>
+            <p class="price">$200</p>
+          </div>
+          <div class="actions">
+            <input type="number" name="quantity" value="0" min="0">
+            <button class="add-to-cart-btn" onclick="addToCart(this)">Dodaj</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart">
+        <h2>Korpa</h2>
+        
+        <div class="cart-items"></div>
+        
+        <div class="total">Total: $0</div>
+        <img src="cart.png">
+      </div>
+    </div>
+</body>
+
+<script>
+	const cartItems = document.querySelector('.cart-items');
+	const totalElement = document.querySelector('.total');
+
+	let allTotal = 0;
+
+	function addToCart(element) {
+		const mainEl = element.closest('.single-item');
+		const priceEl = mainEl.querySelector('.price');
+		const nameEl = mainEl.querySelector('.si-content h3');
+		const quantityEl = mainEl.querySelector('input');
+		
+		const price = parseFloat(priceEl.innerText.replace('$', ''));
+		const name = nameEl.innerText;
+		const quantity = parseInt(quantityEl.value);
+
+		if (quantity > 0) {
+			const total = price * quantity;
+			allTotal += total;
+
+			const cartItemTemplate = `
+				<div class="cart-single-item">
+					<h3>${name}</h3>
+					<p>$${price} x ${quantity} = $${total.toFixed(2)}</p>
+					<button class="remove-btn">Ukloni</button>
+				</div>
+			`;
+
+			const cartItemElement = document.createElement('div');
+			cartItemElement.innerHTML = cartItemTemplate;
+			
+			const cartItemTitle = cartItemElement.querySelector('h3');
+			const cartItemPrice = cartItemElement.querySelector('p');
+			const removeBtn = cartItemElement.querySelector('.remove-btn');
+
+			cartItemTitle.textContent = name;
+			cartItemPrice.textContent = `$${price} x ${quantity} = $${total.toFixed(2)}`;
+			removeBtn.addEventListener('click', removeCartItem);
+			
+			if (cartItems) {
+				cartItems.appendChild(cartItemElement);
+			} else {
+				console.error("Parent element doesn't exist");
+			}
+
+			totalElement.innerText = `Total: $${allTotal.toFixed(2)}`;
+			
+			element.innerText = 'Dodato'; 
+			element.setAttribute('disabled', 'true');
+		} else {
+			alert('Odaberi količinu');
+		}
+	}
+	
+	function removeCartItem(event) {
+		const cartItem = event.target.parentElement;
+		const cartItemPrice = cartItem.querySelector('p');
+		const price = parseFloat(cartItemPrice.innerText.split('=')[1].replace('$', '').trim());
+		allTotal -= price;
+		totalElement.innerText = `Total: $${allTotal.toFixed(2)}`;
+		cartItem.remove();
+
+		const itemName = cartItem.querySelector('h3').innerText;
+		const items = document.querySelectorAll('.single-item');
+		
+		items.forEach(function(item) {
+			const name = item.querySelector('.si-content h3').innerText;
+			if (name === itemName) {
+				item.querySelector('input').value = 0;
+				item.querySelector('button').removeAttribute('disabled');
+				item.querySelector('button').innerText = 'Dodaj';
+			}
+		});
+	}
+	
+</script>
+
+</html>

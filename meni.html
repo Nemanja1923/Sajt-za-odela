@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>vezba4</title>
+</head>
+<body>
+<div class="dropdown">
+  <button class="dropbtn">Meni</button>
+  <div class="dropdown-content">
+    <a href="vezba7.html">Proizvodi</a>
+    <a href="#">O nama</a>
+    <a href="#">Opcija 3</a>
+  </div>
+</div>
+</body>
+<style>
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+</style>
+<script>
+// Neophodno je da se učita HTML stranica pre nego što se ova funkcija pozove
+window.onload = function() {
+  // Dohvata se element padajućeg menija i elementi opcija
+  var dropdown = document.getElementsByClassName("dropdown");
+  var dropdownContent = document.getElementsByClassName("dropdown-content");
+
+  // Sakriva se padajući meni na početku
+  for (var i = 0; i < dropdownContent.length; i++) {
+    dropdownContent[i].style.display = "none";
+  }
+
+  // Dodaje se "click" događaj koji će prikazati/sakriti padajući meni
+  for (var i = 0; i < dropdown.length; i++) {
+    dropdown[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var content = this.children[1];
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
+      }
+    });
+  }
+}
+</script>

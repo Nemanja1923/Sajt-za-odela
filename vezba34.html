@@ -1,0 +1,139 @@
+<html>
+<head>
+<title>vezba34</title>
+<Meta name="Autor" Content="Nemanja Cvetkovic">
+<Meta name="Description" Content="Akademija Oxford">
+<Meta name="Language" Content="Serbe">
+<Meta http-equiv="Content-type" Content="text/Html"; charset="iso-8859-2">
+<Meta name="keywords" Content="HTML-Hype Text Markue Language,serbe,corpus">
+<link rel="styleshit" href="Zavrsna vezba.css">
+<script>
+var now = new Date();
+ var month = new Date( fixYear( now.getYear() ), now.getMonth(), 1 );
+ var months = new Array( "Januar", "Februar", "Mart", "April","Maj", "Jun", "Jul", "Avgust", "Septembar", "Octobar", "Novembar", "Decembar" );
+
+ var urlquery = location.href.split( "?" );
+ if( urlquery[1] )
+ {
+ var params = urlquery[1].split( "&" );
+ var m = (params[0] ? params[0].split( "=" )[1] - 1 : fixMonth( now.getMonth() ) );
+ var y = (params[1] ? params[1].split( "=" )[1] : fixYear( now.getYear() ) );
+ month = new Date( y, m, 1 );
+ }
+
+function fixYear( year )
+ {
+ return( year < 1000 ? year + 1900 : year );
+ }
+
+ function fixMonth( month )
+ {
+ return( month < 0 ? month + 12 : ( month > 11 ? month - 12 : month ) );
+ }
+
+ function getNumberDays( d )
+ { 
+
+ switch( d.getMonth() + 1 )
+ {
+ case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+ return( 31 );
+ case 4: case 6: case 9: case 11:
+ return( 30 );
+ case 2:
+ return( 28 + ( d.getYear % 4 == 0 ? 1 : 0 ) );
+ }
+ }
+function onSelect(){
+	window.opener.setDate(document.theForm.date.value);
+	self.close();
+}
+function getCookieValue(name){
+	var c = document.cookie;
+	var begin = c.indexOf(name);
+	if(begin < 0) return("");
+	begin += name.length + 1;
+	var end = c.indexOf(";", begin);
+	if(end == -1) end.length;
+	return(c.slice(begin, end));
+}
+function setCustoms(){
+	var bg = getCookieValue("bgcolor");
+	var fg = getCookieValue("fgcolor");
+	if(bg != "") document.bgcolor = bg;
+	if(fg != "") document.fgcolor = fg;
+}
+</script>
+<body onLoad="JavaScript;setCustoms();" background="pozadina9.jpg"">
+	<center><marquee><h1> <font color="red">K A L E N D A R</font></h1></marquee></center>
+	<form name="theForm">
+	<center><table border="1" width="50%" style="border-collapse: collapse" bgcolor="silver"></center>
+	<tr>
+		<td align="left" colspan="2">
+		<b>Mesec:</b><input type="text" name="Month" size="5">
+		<script language="JavaScript">
+ 
+ document.theForm.Month.value = fixMonth( month.getMonth() + 1 );
+ 
+ </script>
+		</td>
+		<td colspan="3">
+		<center><b>
+<script language="JavaScript">
+ 
+ document.theForm.Year.value = fixYear( month.getYear() );
+ 
+ </script>
+		</b>
+		<br>
+		<input type="submit" value="Submit">
+		</center>
+		</td>
+		<td align="right" colspan="2">
+		<b>Godina:</b>
+		<input type="text" size="5" name="Year">
+<script language="JavaScript">
+ 
+ document.theForm.Year.value = fixYear( month.getYear() );
+ 
+ </script>
+		</td>
+	</tr>
+	<tr>
+		<td width="14%"><b><i><center>Nedelja</center></i></b></td>
+		<td width="14%"><b><i><center>Ponedeljak</center></i></b></td>
+		<td width="14%"><b><i><center>Utorak</center></i></b></td>
+		<td width="14%"><b><i><center>Sreda</center></i></b></td>
+		<td width="14%"><b><i><center>Cetvrtak</center></i></b></td>
+		<td width="14%"><b><i><center>Petak</center></i></b></td>
+		<td width="14%"><b><i><center>Subota</center></i></b></td>
+	</tr>
+	<tr>
+<script language="JavaScript">
+ <!--
+ var startDay = month.getDay();
+ for( i = 0 ; i < startDay ; i++ )
+ {
+ document.write( "<td></td>" );
+ }
+
+ var numDays = getNumberDays( month );
+ for( i = 1 ; i < numDays + 1 ; i++ )
+ {
+ if( ( i + startDay ) % 7 == 1 )
+ {
+ document.write( "</tr><tr>" );
+ }
+ document.write( "<td><center>" +"<input type='button' " + "onClick='JavaScript: document.theForm.date.value=\"" +fixMonth( month.getMonth() + 1 ) + "/" + i + "/" + fixYear( month.getYear() ) + "\";onSelect();' " +"value='" + ( i < 10 ? " " : "" ) + i + "' " +"class='mono'>" +"</center></td>" );
+ }
+ // -->
+ </script>
+	</tr>
+	</table>
+	<input type="hidden" name="date">
+	</form>
+				
+				
+
+</body>
+</html>
